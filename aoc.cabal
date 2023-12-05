@@ -13,10 +13,13 @@ library
         Day1,
         Day2,
         Day3,
-        Day4
+        Day4,
+        Day5
     build-depends:
         base ^>=4.17.2.0,
         containers,
+        extra,
+        parsec,
         split,
         text,
         vector
@@ -35,6 +38,7 @@ test-suite aoc2023-test
         Day1Spec,
         Day2Spec,
         Day3Spec,
+        Day5Spec,
         Day4Spec
     build-depends:
         aoc,
@@ -43,4 +47,6 @@ test-suite aoc2023-test
         tasty,
         tasty-hspec,
         text
+    build-tool-depends:
+        tasty-discover:tasty-discover
     ghc-options:      -threaded -rtsopts "-with-rtsopts=-N"

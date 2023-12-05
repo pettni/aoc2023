@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Day4Spec (spec) where
+module Day4Spec where
 
 import qualified Data.Text as T (Text, unlines)
 import Day4 (solve1, solve2)
@@ -17,8 +17,8 @@ example =
       "Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"
     ]
 
-spec :: Spec
-spec = do
+spec_day5 :: Spec
+spec_day5 = do
   it "part1" $
     solve1 example `shouldBe` 13
   it "part2" $
