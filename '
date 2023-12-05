@@ -1,0 +1,40 @@
+module Day4 (solve1, solve2) where
+
+import Data.Char (digitToInt, isDigit)
+import Data.List.Split (splitOn)
+import Data.Text (Text)
+import qualified Data.Text as T (lines, unpack)
+import Debug.Trace (trace)
+
+-- Types
+
+data Card = Card {num :: Int, mine :: [Int], winning :: [Int]} deriving (Show)
+
+-- Part 1
+
+solve1 :: Text -> Int
+solve1 ss = length $ trace (show cards) cards
+  where
+    cards = readCard . T.unpack <$> T.lines ss
+
+parseNum :: String -> Int
+parseNum s = read (filter isDigit s) :: Int
+
+readCard :: String -> Card
+readCard line = Card i mine winning
+  where
+    [part1, part2] = splitOn ": " line
+    [part2a, part2b] = splitOn " | " part2
+    i = parseNum part1
+    mine = parseNum <$> filter (not . null) (splitOn " " part2a)
+    winning = parseNum <$> filter (not . null) (splitOn " " part2b)
+
+cardScore :: Card -> Int
+cardScore (Card (i, mine, winning)) = 2 ^ (length numMatches)
+  where
+    numMatches = [x | x <- winning, x `elem` mine]
+
+-- Part 2
+
+solve2 :: Text -> Int
+solve2 ss = 0
