@@ -25,3 +25,5 @@ spec :: Spec
 spec = do
   it "part1" $
     solve1 example `shouldBe` 4361
+  it "part2" $
+    solve2 example `shouldBe` 467835

@@ -5,7 +5,7 @@ author:             Petter Nilsson
 maintainer:         pettni@umich.edu
 
 common build
-    ghc-options: -Wall -O2
+    ghc-options: -Wall -O0 -g
     default-language: GHC2021
 
 library
@@ -15,6 +15,7 @@ library
         Day3
     build-depends:
         base ^>=4.17.2.0,
+        containers,
         split,
         text,
         vector
