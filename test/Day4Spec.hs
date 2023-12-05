@@ -22,4 +22,4 @@ spec = do
   it "part1" $
     solve1 example `shouldBe` 13
   it "part2" $
-    solve2 example `shouldBe` 40
+    solve2 example `shouldBe` 30
