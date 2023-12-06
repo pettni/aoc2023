@@ -46,6 +46,7 @@ test-suite aoc2023-test
         aoc,
         base ^>=4.17.2.0,
         hspec,
+        string-qq,
         tasty,
         tasty-hspec,
         text

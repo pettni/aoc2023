@@ -1,31 +1,29 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes #-}
 
 module Day1Spec where
 
-import qualified Data.Text as T (Text, unlines)
+import Data.String.QQ (s)
 import Day1 (solve1, solve2)
 import Test.Hspec (Spec, it, shouldBe)
 
-example1 :: T.Text
 example1 =
-  T.unlines
-    [ "1abc2",
-      "pqr3stu8vwx",
-      "a1b2c3d4e5f",
-      "treb7uchet"
-    ]
+  [s|
+1abc2
+pqr3stu8vwx
+a1b2c3d4e5f
+treb7uchet
+|]
 
-example2 :: T.Text
 example2 =
-  T.unlines
-    [ "two1nine",
-      "eightwothree",
-      "abcone2threexyz",
-      "xtwone3four",
-      "4nineeightseven2",
-      "zoneight234",
-      "7pqrstsixteen"
-    ]
+  [s|
+two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen
+|]
 
 spec_day1 :: Spec
 spec_day1 = do

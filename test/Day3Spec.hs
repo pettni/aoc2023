@@ -1,25 +1,24 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes #-}
 
 module Day3Spec where
 
-import qualified Data.Text as T (Text, unlines)
+import Data.String.QQ
 import Day3 (solve1, solve2)
 import Test.Hspec (Spec, it, shouldBe)
 
-example :: T.Text
 example =
-  T.unlines
-    [ "467..114..",
-      "...*......",
-      "..35..633.",
-      "......#...",
-      "617*......",
-      ".....+.58.",
-      "..592.....",
-      "......755.",
-      "...$.*....",
-      ".664.598.."
-    ]
+  [s|
+467..114..
+...*......
+..35..633.
+......#...
+617*......
+.....+.58.
+..592.....
+......755.
+...$.*....
+.664.598..
+|]
 
 spec_day3 :: Spec
 spec_day3 = do
