@@ -15,7 +15,7 @@ KTJJT 220
 QQQJA 483
 |]
 
-spec_day6 = do
+spec_day7 = do
   it "part1" $
     solve1 example `shouldBe` 6440
   it "part2" $
