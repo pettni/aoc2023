@@ -11,6 +11,7 @@ import qualified Day5 (solve1, solve2)
 import qualified Day6 (solve1, solve2)
 import qualified Day7 (solve1, solve2)
 import qualified Day8 (solve1, solve2)
+import qualified Day9 (solve1, solve2)
 import System.Environment (getArgs, getProgName)
 import System.Exit (exitFailure)
 import System.IO (hPutStrLn, stderr)
@@ -28,6 +29,7 @@ getSolvers i
   | i == 6 = Just (Day6.solve1, Day6.solve2)
   | i == 7 = Just (Day7.solve1, Day7.solve2)
   | i == 8 = Just (Day8.solve1, Day8.solve2)
+  | i == 9 = Just (Day9.solve1, Day9.solve2)
   | otherwise = Nothing
 
 run :: Int -> IO ()
