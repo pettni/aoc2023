@@ -25,8 +25,7 @@ library
         extra,
         parsec,
         split,
-        text,
-        vector
+        text
     hs-source-dirs: src
 
 executable aoc2023

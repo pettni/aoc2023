@@ -7,6 +7,7 @@ import qualified Text.Parsec as Parsec
 
 -- Parsing
 
+parseInput :: Text -> [[Int]]
 parseInput ss = handleErr $ Parsec.parse inputData "Failure" $ T.unpack ss
   where
     inputData = Parsec.sepEndBy1 intLine Parsec.endOfLine
