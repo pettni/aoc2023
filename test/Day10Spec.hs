@@ -3,7 +3,9 @@
 module Day10Spec where
 
 import Data.String.QQ (s)
-import Day10 (solve1, solve2)
+import Data.Text (Text)
+import Data.Tuple (swap)
+import Day10 (Orientation (..), partitionAdjacent, solve1, solve2)
 import Test.Hspec (Spec, it, shouldBe)
 
 example1 =
@@ -37,6 +39,7 @@ example3 =
 ...........
 |]
 
+example4 :: Text
 example4 =
   [s|
 .F----7F7F7F7F-7....
@@ -51,6 +54,7 @@ L--J.L7...LJS7F-7L7.
 ....L---J.LJ.LJLJ...
 |]
 
+example5 :: Text
 example5 =
   [s|
 FF7FSF7F7F7F7F7F---7
@@ -76,3 +80,11 @@ spec_day10 = do
     solve2 example4 `shouldBe` 8
   it "part2-3" $
     solve2 example5 `shouldBe` 10
+  it "partition-1" $
+    partitionAdjacent ON ON `shouldBe` ([(1, 1), (0, 1), (-1, 1)], [(-1, -1), (0, -1), (1, -1)])
+  it "partition-2" $
+    partitionAdjacent OS OS `shouldBe` swap (partitionAdjacent ON ON)
+  it "partition-3" $
+    partitionAdjacent OE ON `shouldBe` ([(1, -1), (1, 0), (1, 1), (0, 1), (-1, 1)], [(-1, -1)])
+  it "partition-4" $
+    partitionAdjacent OS OW `shouldBe` swap (partitionAdjacent OE ON)
