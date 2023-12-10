@@ -18,11 +18,13 @@ library
         Day6,
         Day7,
         Day8,
-        Day9
+        Day9,
+        Day10
     build-depends:
         base ^>=4.17.2.0,
         containers,
         extra,
+        megaparsec,
         parsec,
         split,
         text
@@ -46,7 +48,8 @@ test-suite aoc2023-test
         Day6Spec,
         Day7Spec,
         Day8Spec,
-        Day9Spec
+        Day9Spec,
+        Day10Spec
     build-depends:
         aoc,
         base ^>=4.17.2.0,
