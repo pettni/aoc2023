@@ -10,7 +10,6 @@ import qualified Data.Set as S
 import Data.Text (Text)
 import qualified Data.Text as T (unpack)
 import Data.Tuple (swap)
-import Debug.Trace (trace)
 import qualified Text.Parsec as Parsec
 
 -- Types
@@ -129,7 +128,7 @@ flatten2d :: Seq2d a -> Seq.Seq a
 flatten2d = foldl (Seq.><) mempty
 
 solve2 :: Text -> Int
-solve2 ss = Seq.length $ Seq.filter (== innerChar) $ flatten2d $ trace (concatMap (\x -> show x ++ "\n") filledLrTileMap) filledLrTileMap
+solve2 ss = Seq.length $ Seq.filter (== innerChar) $ flatten2d filledLrTileMap
   where
     tiles = parseInput ss
     nRows = length tiles

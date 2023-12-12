@@ -7,7 +7,6 @@ import Data.Maybe (fromJust)
 import qualified Data.Set as S
 import Data.Text (Text)
 import qualified Data.Text as T (unpack)
-import Debug.Trace (trace)
 import qualified Text.Parsec as Parsec
 
 -- Types

@@ -19,7 +19,8 @@ library
         Day7,
         Day8,
         Day9,
-        Day10
+        Day10,
+        Day11
     build-depends:
         base ^>=4.17.2.0,
         containers,
@@ -49,7 +50,8 @@ test-suite aoc2023-test
         Day7Spec,
         Day8Spec,
         Day9Spec,
-        Day10Spec
+        Day10Spec,
+        Day11Spec
     build-depends:
         aoc,
         base ^>=4.17.2.0,

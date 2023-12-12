@@ -4,6 +4,7 @@ import Data.Text (Text)
 import qualified Data.Text.IO as TIO (readFile)
 import qualified Day1 (solve1, solve2)
 import qualified Day10 (solve1, solve2)
+import qualified Day11 (solve1, solve2)
 import qualified Day2 (solve1, solve2)
 import qualified Day3 (solve1, solve2)
 import qualified Day4 (solve1, solve2)
@@ -16,7 +17,7 @@ import System.Environment (getArgs, getProgName)
 import System.Exit (exitFailure)
 import System.IO (hPutStrLn, stderr)
 
-maxDay = 9
+maxDay = 11
 
 getSolvers :: Int -> (Text -> Int, Text -> Int)
 getSolvers i
@@ -30,6 +31,7 @@ getSolvers i
   | i == 8 = (Day8.solve1, Day8.solve2)
   | i == 9 = (Day9.solve1, Day9.solve2)
   | i == 10 = (Day10.solve1, Day10.solve2)
+  | i == 11 = (Day11.solve1, Day11.solve2)
   | otherwise = error $ "Unknown day " ++ show i
 
 runWithFile :: Int -> String -> IO ()
