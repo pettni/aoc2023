@@ -1,15 +1,17 @@
 module Day12 (solve1, solve2) where
 
 import Data.List (intercalate, transpose)
+import qualified Data.Map as M (Map, fromList, insert, lookup, member, union)
+import Data.Maybe (fromJust)
 import Data.Text (Text, unpack)
 import Debug.Trace (trace)
 import qualified Text.Parsec as Parsec
 
 -- Types
 
-data Condition = COk | CBroken | CUnknown deriving (Show, Eq)
+data Condition = COk | CBroken | CUnknown deriving (Show, Eq, Ord)
 
-data Record = Record {conditions :: [Condition], brokenGroups :: [Int]} deriving (Show, Eq)
+data Record = Record {conditions :: [Condition], brokenGroups :: [Int]} deriving (Show, Eq, Ord)
 
 -- Parsing
 
@@ -40,32 +42,33 @@ solve1 ss = sum $ countCombinations <$> records
     records = parseInput ss
 
 countCombinations :: Record -> Int
-countCombinations = countCombinations' CUnknown
+countCombinations = snd . countCombinations' mempty CUnknown
   where
-    countCombinations' :: Condition -> Record -> Int
+    countCombinations' :: M.Map (Condition, Record) Int -> Condition -> Record -> (M.Map (Condition, Record) Int, Int)
     -- consumed all input
-    countCombinations' _ (Record [] []) = 1
+    countCombinations' mem _ (Record [] []) = (mem, 1)
     -- need more broken
-    countCombinations' _ (Record [] gs) = 0
+    countCombinations' mem _ (Record [] gs) = (mem, 0)
     -- need more groups
-    countCombinations' _ (Record (CBroken : cs) []) = 0
+    countCombinations' mem _ (Record (CBroken : cs) []) = (mem, 0)
     -- need broken
-    countCombinations' CBroken (Record (COk : cs) _) = 0
+    countCombinations' mem CBroken (Record (COk : cs) _) = (mem, 0)
     -- need ok
-    countCombinations' COk (Record (CBroken : cs) _) = 0
+    countCombinations' mem COk (Record (CBroken : cs) _) = (mem, 0)
     -- skip over OK
-    countCombinations' _ (Record (COk : cs) gs) = countCombinations' CUnknown $ Record cs gs
+    countCombinations' mem _ (Record (COk : cs) gs) = countCombinations' mem CUnknown $ Record cs gs
     -- consume broken
-    countCombinations' _ (Record (CBroken : cs) (g : gs)) = countCombinations' nextCond $ Record cs newGroups
+    countCombinations' mem _ (Record (CBroken : cs) (g : gs)) = countCombinations' mem nextCond $ Record cs newGroups
       where
         (newGroups, nextCond) = if g == 1 then (gs, COk) else (g - 1 : gs, CBroken)
     -- disambiguate unknown
-    countCombinations' flag (Record (CUnknown : cs) gs) = combsOk + combsBroken
+    countCombinations' mem flag rec@(Record (CUnknown : cs) gs) = if M.member (flag, rec) mem then (mem, fromJust $ M.lookup (flag, rec) mem) else (memRec, combsRec)
       where
-        combsOk = countCombinations' flag $ Record (COk : cs) gs
-        combsBroken = countCombinations' flag $ Record (CBroken : cs) gs
-    -- pattern match fail -> invalid combination
-    countCombinations' cond rec = error $ "Invalid comb: " ++ show cond ++ " (rec :" ++ show rec ++ ")"
+        (memRec, combsRec) = (mem''', combsOk + combsBroken)
+          where
+            (mem', combsOk) = countCombinations' mem flag $ Record (COk : cs) gs
+            (mem'', combsBroken) = countCombinations' mem' flag $ Record (CBroken : cs) gs
+            mem''' = M.insert (flag, rec) (combsOk + combsBroken) mem''
 
 -- Part 2
 
