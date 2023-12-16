@@ -13,7 +13,8 @@ cabal build all
 cabal test  # run unit tests
 ```
 
-Run a specific day
+Run
 ```zsh
-cabal run 3  # run day 3
+cabal run aoc2023 all  # run all days
+cabal run aoc2023 3  # run specific day
 ```
