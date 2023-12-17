@@ -25,14 +25,17 @@ library
         Day13,
         Day14,
         Day15,
-        Day16
+        Day16,
+        Day17
     build-depends:
         base ^>=4.17.2.0,
         containers,
         extra,
+        heap,
         parsec,
         split,
-        text
+        text,
+        vector
     hs-source-dirs: src
 
 executable aoc2023
@@ -60,7 +63,8 @@ test-suite aoc2023-test
         Day13Spec,
         Day14Spec,
         Day15Spec,
-        Day16Spec
+        Day16Spec,
+        Day17Spec
     build-depends:
         aoc,
         base ^>=4.17.2.0,

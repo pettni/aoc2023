@@ -1,5 +1,5 @@
 #!/bin/bash
 
-for i in {16..20}; do
+for i in {17..17}; do
   aocd "$i" > "data/$i.txt"
 done
