@@ -12,6 +12,7 @@ import qualified Day15 (solve1, solve2)
 import qualified Day16 (solve1, solve2)
 import qualified Day17 (solve1, solve2)
 import qualified Day18 (solve1, solve2)
+import qualified Day19 (solve1, solve2)
 import qualified Day2 (solve1, solve2)
 import qualified Day3 (solve1, solve2)
 import qualified Day4 (solve1, solve2)
@@ -24,7 +25,7 @@ import System.Environment (getArgs, getProgName)
 import System.Exit (exitFailure)
 import System.IO (hPutStrLn, stderr)
 
-maxDay = 17
+maxDay = 19
 
 getSolvers :: Int -> (Text -> Int, Text -> Int)
 getSolvers i
@@ -46,6 +47,7 @@ getSolvers i
   | i == 16 = (Day16.solve1, Day16.solve2)
   | i == 17 = (Day17.solve1, Day17.solve2)
   | i == 18 = (Day18.solve1, Day18.solve2)
+  | i == 19 = (Day19.solve1, Day19.solve2)
   | otherwise = error $ "Unknown day " ++ show i
 
 runWithFile :: Int -> String -> IO ()
