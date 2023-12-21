@@ -1,6 +1,7 @@
 module Day21 (solve1, solve1', solve2, reachableInfinite) where
 
 import qualified Data.Array.Unboxed as A
+import Data.Ix (range)
 import qualified Data.Set as S
 import Data.Text (Text, unpack)
 import Debug.Trace (trace)
@@ -32,19 +33,18 @@ parseInput ss = toBoard $ handleErr $ Parsec.parse inputData "Failure" $ unpack 
 
 -- Part 1
 
+movements :: [(Int, Int) -> (Int, Int)]
+movements = [\(x, y) -> (x + dx, y + dy) | (dx, dy) <- [(0, -1), (0, 1), (-1, 0), (1, 0)]]
+
 reachableInfinite :: [Int] -> Text -> [Int]
-reachableInfinite numSteps ss = length <$> fmap (reachableSets !!) numSteps
+reachableInfinite numSteps ss = length . (reachableSets !!) <$> numSteps
   where
     board = parseInput ss
     (_, (yMax, xMax)) = A.bounds board
-    startSet = S.fromList [(x, y) | x <- [0 .. xMax], y <- [0 .. yMax], board A.! (y, x) == TStart]
-    reachableSets = iterate fnIter startSet
+    startSet = S.fromList $ filter ((== TStart) . (board A.!)) $ range (A.bounds board)
+    reachableSets = iterate (S.fromList . filter notRock . (movements <*>) . S.toList) startSet
       where
-        fnIter set = S.fromList $ filter notRock [(x + dx, y + dy) | (x, y) <- S.toList set, (dx, dy) <- [(1, 0), (-1, 0), (0, 1), (0, -1)]]
-        notRock (x, y) = board A.! (ym, xm) /= TRock
-          where
-            ym = y `mod` (yMax + 1)
-            xm = x `mod` (xMax + 1)
+        notRock (y, x) = board A.! (y `mod` (yMax + 1), x `mod` (xMax + 1)) /= TRock
 
 solve1' :: Int -> Text -> Int
 solve1' numSteps ss = head $ reachableInfinite [numSteps] ss
