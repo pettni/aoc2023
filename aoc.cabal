@@ -32,6 +32,7 @@ library
         Day20,
         Day21
     build-depends:
+        array,
         base ^>=4.17.2.0,
         containers,
         extra,

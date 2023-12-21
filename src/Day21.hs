@@ -1,8 +1,8 @@
 module Day21 (solve1, solve1', solve2, reachableInfinite) where
 
+import qualified Data.Array.Unboxed as A
 import qualified Data.Set as S
 import Data.Text (Text, unpack)
-import qualified Data.Vector as V
 import Debug.Trace (trace)
 import qualified Text.Parsec as Parsec
 
@@ -10,7 +10,7 @@ import qualified Text.Parsec as Parsec
 
 data Tile = TRock | TGarden | TStart deriving (Eq, Show)
 
-type Board = V.Vector (V.Vector Tile)
+type Board = A.Array (Int, Int) Tile
 
 -- Parsing
 
@@ -18,49 +18,41 @@ parseTile :: Char -> Tile
 parseTile '.' = TGarden
 parseTile '#' = TRock
 parseTile 'S' = TStart
-parseTile c = error $ "Can not parse " ++ [c]
 
 parseInput :: Text -> Board
-parseInput ss = handleErr $ Parsec.parse inputData "Failure" $ unpack ss
+parseInput ss = toBoard $ handleErr $ Parsec.parse inputData "Failure" $ unpack ss
   where
-    inputData = V.fromList <$> Parsec.sepEndBy1 (V.fromList . map parseTile <$> Parsec.many1 (Parsec.noneOf "\n")) Parsec.endOfLine
+    inputData = Parsec.sepEndBy1 (map parseTile <$> Parsec.many1 (Parsec.noneOf "\n")) Parsec.endOfLine
+
+    toBoard :: [[Tile]] -> Board
+    toBoard xs = A.listArray ((0, 0), (length xs - 1, length (head xs) - 1)) (concat xs)
 
     handleErr (Left a) = error (show a)
     handleErr (Right a) = a
 
 -- Part 1
 
-step :: Board -> (Int, Int) -> S.Set (Int, Int)
-step board (x, y) = S.fromList $ filter notRock $ filter inBounds [(x + dx, y + dy) | (dx, dy) <- [(-1, 0), (1, 0), (0, -1), (0, 1)]]
+reachableInfinite :: [Int] -> Text -> [Int]
+reachableInfinite numSteps ss = length <$> fmap (reachableSets !!) numSteps
   where
-    inBounds (x, y) = y >= 0 && y < length board && x >= 0 && x < length (board V.! y)
-    notRock (x, y) = board V.! y V.! x /= TRock
+    board = parseInput ss
+    (_, (yMax, xMax)) = A.bounds board
+    startSet = S.fromList [(x, y) | x <- [0 .. xMax], y <- [0 .. yMax], board A.! (y, x) == TStart]
+    reachableSets = iterate fnIter startSet
+      where
+        fnIter set = S.fromList $ filter notRock [(x + dx, y + dy) | (x, y) <- S.toList set, (dx, dy) <- [(1, 0), (-1, 0), (0, 1), (0, -1)]]
+        notRock (x, y) = board A.! (ym, xm) /= TRock
+          where
+            ym = y `mod` (yMax + 1)
+            xm = x `mod` (xMax + 1)
 
 solve1' :: Int -> Text -> Int
-solve1' numSteps ss = length $ iterate (S.unions . S.map (step board)) startSet !! numSteps
-  where
-    startSet = S.fromList [(i, j) | j <- [0 .. length board - 1], i <- [0 .. length (board V.! j) - 1], board V.! j V.! i == TStart]
-    board = parseInput ss
+solve1' numSteps ss = head $ reachableInfinite [numSteps] ss
 
 solve1 :: Text -> Int
 solve1 = solve1' 64
 
 -- Part 2
-
-step' :: Board -> (Int, Int) -> S.Set (Int, Int)
-step' board (x, y) = S.fromList $ filter notRock [(x + dx, y + dy) | (dx, dy) <- [(-1, 0), (1, 0), (0, -1), (0, 1)]]
-  where
-    notRock (x, y) = board V.! ym V.! xm /= TRock
-      where
-        ym = y `mod` length board
-        xm = x `mod` length (board V.! ym)
-
-reachableInfinite :: [Int] -> Text -> [Int]
-reachableInfinite numSteps ss = length <$> fmap (sequence !!) numSteps
-  where
-    board = parseInput ss
-    startSet = S.fromList [(i, j) | j <- [0 .. length board - 1], i <- [0 .. length (board V.! j) - 1], board V.! j V.! i == TStart]
-    sequence = iterate (S.unions . S.map (step' board)) startSet
 
 -- The steps are s.t. 26501365 = 65 + 202300 * 131
 -- n = 0 -- expect 3762
