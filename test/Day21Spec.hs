@@ -22,7 +22,7 @@ example =
 ...........
 |]
 
-spec_day20 = do
+spec_day21 = do
   it "part1" $
     solve1' 6 example `shouldBe` 16
   it "part2-reach" $

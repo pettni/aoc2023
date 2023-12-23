@@ -18,7 +18,7 @@ example =
 1,1,8~1,1,9
 |]
 
-spec_day20 = do
+spec_day22 = do
   it "part1" $
     solve1  example `shouldBe` 5
   it "part1" $
