@@ -32,7 +32,8 @@ library
         Day20,
         Day21,
         Day22,
-        Day23
+        Day23,
+        Day24
     build-depends:
         array,
         base ^>=4.17.2.0,
@@ -77,7 +78,8 @@ test-suite aoc2023-test
         Day20Spec,
         Day21Spec,
         Day22Spec,
-        Day23Spec
+        Day23Spec,
+        Day24Spec
     build-depends:
         aoc,
         base ^>=4.17.2.0,
