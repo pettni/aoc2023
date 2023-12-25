@@ -19,6 +19,7 @@ import qualified Day21 (solve1, solve2)
 import qualified Day22 (solve1, solve2)
 import qualified Day23 (printGraph, solve1, solve2)
 import qualified Day24 (solve1, solve2)
+import qualified Day25 (solve1, solve2)
 import qualified Day3 (solve1, solve2)
 import qualified Day4 (solve1, solve2)
 import qualified Day5 (solve1, solve2)
@@ -30,7 +31,7 @@ import System.Environment (getArgs, getProgName)
 import System.Exit (exitFailure)
 import System.IO (hPutStrLn, stderr)
 
-maxDay = 24
+maxDay = 25
 
 getSolvers :: Int -> (Text -> Int, Text -> Int)
 getSolvers i
@@ -58,6 +59,7 @@ getSolvers i
   | i == 22 = (Day22.solve1, Day22.solve2)
   | i == 23 = (Day23.solve1, Day23.solve2)
   | i == 24 = (Day24.solve1, Day24.solve2)
+  | i == 25 = (Day25.solve1, Day25.solve2)
   | otherwise = error $ "Unknown day " ++ show i
 
 runWithFile :: Int -> String -> IO ()
@@ -78,7 +80,7 @@ main = do
   case args of
     ["all"] -> mapM_ (`run` Nothing) [1 .. maxDay]
     [num] -> run (read num :: Int) Nothing
-    ["graph", file] -> do
+    ["23graph", file] -> do
       fileContent <- TIO.readFile file
       Day23.printGraph fileContent
     [num, file] -> run (read num :: Int) (Just file)

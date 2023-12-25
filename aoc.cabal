@@ -5,7 +5,7 @@ author:             Petter Nilsson
 maintainer:         pettni@umich.edu
 
 common build
-    ghc-options: -Wall -O0 -g
+    ghc-options: -Wall -O3
     default-language: GHC2021
 
 library
@@ -33,7 +33,8 @@ library
         Day21,
         Day22,
         Day23,
-        Day24
+        Day24,
+        Day25
     build-depends:
         array,
         base ^>=4.17.2.0,
@@ -41,6 +42,7 @@ library
         extra,
         heap,
         parsec,
+        psqueues,
         split,
         text,
         vector
@@ -79,7 +81,8 @@ test-suite aoc2023-test
         Day21Spec,
         Day22Spec,
         Day23Spec,
-        Day24Spec
+        Day24Spec,
+        Day25Spec
     build-depends:
         aoc,
         base ^>=4.17.2.0,
